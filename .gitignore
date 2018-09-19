@@ -10,3 +10,4 @@ Thumbs.db
 *.log
 .eslintcache
 yarn.lock
+.cache

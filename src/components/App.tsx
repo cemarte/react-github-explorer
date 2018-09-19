@@ -1,10 +1,7 @@
 import * as React from "react";
-import { Shenanigans } from "react-microbundle-ts";
-const App: React.SFC = () => <div>
-    <h1>Test</h1>
-
-    <p>Component 1</p>
-    <Shenanigans />
-</div>;
-
+import { GitRepos } from "./GitRepos";
+const App: React.SFC = () => <main>
+    <h1>Repo explorer</h1>
+    <GitRepos></GitRepos>
+</main>;
 export default App;
