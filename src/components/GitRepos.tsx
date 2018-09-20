@@ -1,14 +1,16 @@
 import * as React from "react";
 import { IRepository } from "../types";
 import { GitRepo } from "./GitRepo";
+import "./GitRepos.scss";
 
 
-export class GitRepos extends React.Component<{}, { repos: IRepository[] }> {
+export class GitRepos extends React.Component<{ repoSelected: (repo: IRepository) => void }, { repos: IRepository[] }> {
     constructor(props: any) {
         super(props);
         this.state = {
             repos: undefined
         };
+        this.handleRepoClick = this.handleRepoClick.bind(this);
     }
 
     public componentDidMount(): void {
@@ -21,6 +23,10 @@ export class GitRepos extends React.Component<{}, { repos: IRepository[] }> {
         });
     }
 
+    private handleRepoClick(repoId: number): void {
+        this.props.repoSelected(this.state.repos.find(r=>r.id === repoId));
+    }
+
     public render(): JSX.Element {
         const { repos } = this.state;
         if (!repos) {
@@ -30,7 +36,7 @@ export class GitRepos extends React.Component<{}, { repos: IRepository[] }> {
             <section className="repos">
                 {
                     repos.map((repo) => (
-                        <GitRepo repo={repo} />
+                        <GitRepo key={repo.id} repo={repo} clicked={this.handleRepoClick} />
                     ))
                 }
             </section>

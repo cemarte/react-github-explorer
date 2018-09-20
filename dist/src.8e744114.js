@@ -21151,7 +21151,73 @@ if ('development' === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"..\\node_modules\\react-dom\\cjs\\react-dom.development.js"}],"components\\GitRepo.tsx":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"..\\node_modules\\react-dom\\cjs\\react-dom.development.js"}],"..\\node_modules\\parcel-bundler\\lib\\builtins\\bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"..\\node_modules\\parcel-bundler\\lib\\builtins\\css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+  newLink.onload = function () {
+    link.remove();
+  };
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
+
+    cssTimeout = null;
+  }, 50);
+}
+
+module.exports = reloadCSS;
+},{"./bundle-url":"..\\node_modules\\parcel-bundler\\lib\\builtins\\bundle-url.js"}],"components\\GitRepo.scss":[function(require,module,exports) {
+
+var reloadCSS = require('_css_loader');
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"..\\node_modules\\parcel-bundler\\lib\\builtins\\css-loader.js"}],"components\\GitRepo.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -21164,11 +21230,15 @@ var __importStar = this && this.__importStar || function (mod) {
 };
 exports.__esModule = true;
 var React = __importStar(require("react"));
+require("./GitRepo.scss");
 exports.GitRepo = function (_a) {
-    var repo = _a.repo;
+    var repo = _a.repo,
+        clicked = _a.clicked;
     return React.createElement(
         "article",
-        { className: "git-repo" },
+        { className: "git-repo", onClick: function onClick() {
+                return clicked(repo.id);
+            } },
         React.createElement(
             "h3",
             null,
@@ -21187,7 +21257,12 @@ exports.GitRepo = function (_a) {
     );
 };
 exports["default"] = exports.GitRepo;
-},{"react":"..\\node_modules\\react\\index.js"}],"components\\GitRepos.tsx":[function(require,module,exports) {
+},{"react":"..\\node_modules\\react\\index.js","./GitRepo.scss":"components\\GitRepo.scss"}],"components\\GitRepos.scss":[function(require,module,exports) {
+
+var reloadCSS = require('_css_loader');
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"..\\node_modules\\parcel-bundler\\lib\\builtins\\css-loader.js"}],"components\\GitRepos.tsx":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {
@@ -21220,6 +21295,7 @@ var __importStar = this && this.__importStar || function (mod) {
 exports.__esModule = true;
 var React = __importStar(require("react"));
 var GitRepo_1 = require("./GitRepo");
+require("./GitRepos.scss");
 var GitRepos = /** @class */function (_super) {
     __extends(GitRepos, _super);
     function GitRepos(props) {
@@ -21227,6 +21303,7 @@ var GitRepos = /** @class */function (_super) {
         _this.state = {
             repos: undefined
         };
+        _this.handleRepoClick = _this.handleRepoClick.bind(_this);
         return _this;
     }
     GitRepos.prototype.componentDidMount = function () {
@@ -21239,7 +21316,13 @@ var GitRepos = /** @class */function (_super) {
             }
         });
     };
+    GitRepos.prototype.handleRepoClick = function (repoId) {
+        this.props.repoSelected(this.state.repos.find(function (r) {
+            return r.id === repoId;
+        }));
+    };
     GitRepos.prototype.render = function () {
+        var _this = this;
         var repos = this.state.repos;
         if (!repos) {
             return React.createElement(
@@ -21252,16 +21335,40 @@ var GitRepos = /** @class */function (_super) {
             "section",
             { className: "repos" },
             repos.map(function (repo) {
-                return React.createElement(GitRepo_1.GitRepo, { repo: repo });
+                return React.createElement(GitRepo_1.GitRepo, { key: repo.id, repo: repo, clicked: _this.handleRepoClick });
             })
         );
     };
     return GitRepos;
 }(React.Component);
 exports.GitRepos = GitRepos;
-},{"react":"..\\node_modules\\react\\index.js","./GitRepo":"components\\GitRepo.tsx"}],"components\\App.tsx":[function(require,module,exports) {
+},{"react":"..\\node_modules\\react\\index.js","./GitRepo":"components\\GitRepo.tsx","./GitRepos.scss":"components\\GitRepos.scss"}],"components\\App.scss":[function(require,module,exports) {
+
+var reloadCSS = require('_css_loader');
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"..\\node_modules\\parcel-bundler\\lib\\builtins\\css-loader.js"}],"components\\App.tsx":[function(require,module,exports) {
 "use strict";
 
+var __extends = this && this.__extends || function () {
+    var _extendStatics = function extendStatics(d, b) {
+        _extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
+            d.__proto__ = b;
+        } || function (d, b) {
+            for (var p in b) {
+                if (b.hasOwnProperty(p)) d[p] = b[p];
+            }
+        };
+        return _extendStatics(d, b);
+    };
+    return function (d, b) {
+        _extendStatics(d, b);
+        function __() {
+            this.constructor = d;
+        }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+}();
 var __importStar = this && this.__importStar || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -21273,20 +21380,64 @@ var __importStar = this && this.__importStar || function (mod) {
 exports.__esModule = true;
 var React = __importStar(require("react"));
 var GitRepos_1 = require("./GitRepos");
-var App = function App() {
-    return React.createElement(
-        "main",
-        null,
-        React.createElement(
-            "h1",
+require("./App.scss");
+var App = /** @class */function (_super) {
+    __extends(App, _super);
+    function App(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            selectedRepo: undefined
+        };
+        _this.handleRepoSelected = _this.handleRepoSelected.bind(_this);
+        return _this;
+    }
+    App.prototype.handleRepoSelected = function (repo) {
+        this.setState({ selectedRepo: repo });
+    };
+    App.prototype.render = function () {
+        var selectedRepo = this.state.selectedRepo;
+        return React.createElement(
+            React.Fragment,
             null,
-            "Repo explorer"
-        ),
-        React.createElement(GitRepos_1.GitRepos, null)
-    );
-};
+            React.createElement(
+                "header",
+                null,
+                React.createElement(
+                    "h1",
+                    null,
+                    "Repo explorer"
+                )
+            ),
+            React.createElement(
+                "main",
+                null,
+                React.createElement(
+                    "nav",
+                    null,
+                    React.createElement(GitRepos_1.GitRepos, { repoSelected: this.handleRepoSelected })
+                ),
+                React.createElement(
+                    "section",
+                    null,
+                    selectedRepo && React.createElement(
+                        "h1",
+                        null,
+                        selectedRepo.full_name
+                    )
+                )
+            )
+        );
+    };
+    return App;
+}(React.Component);
+exports.App = App;
 exports["default"] = App;
-},{"react":"..\\node_modules\\react\\index.js","./GitRepos":"components\\GitRepos.tsx"}],"index.tsx":[function(require,module,exports) {
+},{"react":"..\\node_modules\\react\\index.js","./GitRepos":"components\\GitRepos.tsx","./App.scss":"components\\App.scss"}],"index.scss":[function(require,module,exports) {
+
+var reloadCSS = require('_css_loader');
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"..\\node_modules\\parcel-bundler\\lib\\builtins\\css-loader.js"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -21304,9 +21455,10 @@ exports.__esModule = true;
 var React = __importStar(require("react"));
 var ReactDOM = __importStar(require("react-dom"));
 var App_1 = __importDefault(require("./components/App"));
-var root = document.getElementById('root');
+require("./index.scss");
+var root = document.getElementById("root");
 ReactDOM.render(React.createElement(App_1.default, null), root);
-},{"react":"..\\node_modules\\react\\index.js","react-dom":"..\\node_modules\\react-dom\\index.js","./components/App":"components\\App.tsx"}],"..\\node_modules\\parcel-bundler\\lib\\builtins\\hmr-runtime.js":[function(require,module,exports) {
+},{"react":"..\\node_modules\\react\\index.js","react-dom":"..\\node_modules\\react-dom\\index.js","./components/App":"components\\App.tsx","./index.scss":"index.scss"}],"..\\node_modules\\parcel-bundler\\lib\\builtins\\hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 
