@@ -21347,7 +21347,110 @@ exports.GitRepos = GitRepos;
 var reloadCSS = require('_css_loader');
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"..\\node_modules\\parcel-bundler\\lib\\builtins\\css-loader.js"}],"components\\App.tsx":[function(require,module,exports) {
+},{"_css_loader":"..\\node_modules\\parcel-bundler\\lib\\builtins\\css-loader.js"}],"components\\GitRepoDetails.tsx":[function(require,module,exports) {
+"use strict";
+
+var __extends = this && this.__extends || function () {
+    var _extendStatics = function extendStatics(d, b) {
+        _extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
+            d.__proto__ = b;
+        } || function (d, b) {
+            for (var p in b) {
+                if (b.hasOwnProperty(p)) d[p] = b[p];
+            }
+        };
+        return _extendStatics(d, b);
+    };
+    return function (d, b) {
+        _extendStatics(d, b);
+        function __() {
+            this.constructor = d;
+        }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+}();
+var __importStar = this && this.__importStar || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) {
+        if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    }result["default"] = mod;
+    return result;
+};
+exports.__esModule = true;
+var React = __importStar(require("react"));
+var GitRepoDetails = /** @class */function (_super) {
+    __extends(GitRepoDetails, _super);
+    function GitRepoDetails(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            issues: undefined
+        };
+        return _this;
+    }
+    GitRepoDetails.prototype.render = function () {
+        var repo = this.props.repo;
+        var issues = this.state.issues;
+        return React.createElement(
+            "article",
+            null,
+            React.createElement(
+                "header",
+                null,
+                React.createElement(
+                    "h2",
+                    null,
+                    repo.full_name
+                ),
+                React.createElement(
+                    "p",
+                    null,
+                    repo.description
+                )
+            ),
+            React.createElement(
+                "main",
+                null,
+                React.createElement(
+                    "section",
+                    null,
+                    repo.owner.login
+                ),
+                React.createElement(
+                    "section",
+                    null,
+                    issues && issues.map(function (issue) {
+                        return React.createElement(
+                            "h3",
+                            null,
+                            issue.title
+                        );
+                    })
+                )
+            )
+        );
+    };
+    /**
+     * componentDidMount
+     */
+    GitRepoDetails.prototype.componentDidMount = function () {
+        var _this = this;
+        var repo = this.props.repo;
+        if (!this.state.issues) {
+            fetch(repo.issues_url.replace("{/number}", "")).then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (issues) {
+                        _this.setState({ issues: issues });
+                    });
+                }
+            })["catch"](console.error);
+        }
+    };
+    return GitRepoDetails;
+}(React.Component);
+exports.GitRepoDetails = GitRepoDetails;
+exports["default"] = GitRepoDetails;
+},{"react":"..\\node_modules\\react\\index.js"}],"components\\App.tsx":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {
@@ -21381,6 +21484,7 @@ exports.__esModule = true;
 var React = __importStar(require("react"));
 var GitRepos_1 = require("./GitRepos");
 require("./App.scss");
+var GitRepoDetails_1 = require("./GitRepoDetails");
 var App = /** @class */function (_super) {
     __extends(App, _super);
     function App(props) {
@@ -21419,11 +21523,7 @@ var App = /** @class */function (_super) {
                 React.createElement(
                     "section",
                     null,
-                    selectedRepo && React.createElement(
-                        "h1",
-                        null,
-                        selectedRepo.full_name
-                    )
+                    selectedRepo && React.createElement(GitRepoDetails_1.GitRepoDetails, { repo: selectedRepo })
                 )
             )
         );
@@ -21432,7 +21532,7 @@ var App = /** @class */function (_super) {
 }(React.Component);
 exports.App = App;
 exports["default"] = App;
-},{"react":"..\\node_modules\\react\\index.js","./GitRepos":"components\\GitRepos.tsx","./App.scss":"components\\App.scss"}],"index.scss":[function(require,module,exports) {
+},{"react":"..\\node_modules\\react\\index.js","./GitRepos":"components\\GitRepos.tsx","./App.scss":"components\\App.scss","./GitRepoDetails":"components\\GitRepoDetails.tsx"}],"index.scss":[function(require,module,exports) {
 
 var reloadCSS = require('_css_loader');
 module.hot.dispose(reloadCSS);

@@ -2,6 +2,7 @@ import * as React from "react";
 import { GitRepos } from "./GitRepos";
 import "./App.scss";
 import { IRepository } from "../types";
+import { GitRepoDetails } from "./GitRepoDetails";
 export class App extends React.Component<{}, { selectedRepo: IRepository }> {
     constructor(props: any) {
         super(props);
@@ -28,7 +29,7 @@ export class App extends React.Component<{}, { selectedRepo: IRepository }> {
                         <GitRepos repoSelected={this.handleRepoSelected}></GitRepos>
                     </nav>
                     <section>
-                        {selectedRepo && <h1>{selectedRepo.full_name}</h1>}
+                        {selectedRepo && <GitRepoDetails repo={selectedRepo} />}
                     </section>
                 </main>
             </React.Fragment>
