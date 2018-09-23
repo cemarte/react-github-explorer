@@ -1,11 +1,12 @@
 import * as React from "react";
 import { IRepository } from "../types";
-import { GitRepo } from "./GitRepo";
+import { GitRepoListItem } from "./GitRepo";
 import "./GitRepos.scss";
 import { IInjectedProps } from "./WithFetchData";
 
-
-export class GitRepos extends React.Component<IInjectedProps & { repoSelected: (repo: IRepository) => void }, { data: IRepository[] }> {
+export class GitRepoList extends React.Component<
+    IInjectedProps<IRepository> & { repoSelected: (repo: IRepository) => void },
+    { data: IRepository }> {
     constructor(props: any) {
         super(props);
     }
@@ -13,7 +14,7 @@ export class GitRepos extends React.Component<IInjectedProps & { repoSelected: (
     public render(): JSX.Element {
         const { data } = this.props;
         if (!data) {
-            return (<div>Loading...</div>);
+            return (<div>No Repositories</div>);
         }
         return (
             <section className="repos">
@@ -29,7 +30,7 @@ export class GitRepos extends React.Component<IInjectedProps & { repoSelected: (
 
     private renderRepos(repos: IRepository[]): JSX.Element[] {
         return repos.length && repos.map((repo) => (
-            <GitRepo key={repo.id} repo={repo} clicked={this.handleRepoClick} />
+            <GitRepoListItem key={repo.node_id} repo={repo} clicked={this.handleRepoClick} />
         ));
     }
 

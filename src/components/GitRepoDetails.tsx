@@ -1,20 +1,21 @@
 import * as React from "react";
 import { IRepository } from "../types";
+import { WithFetchData } from "./WithFetchData";
+import { GitRepoIssuesList } from "./GitRepoIssuesList";
 
+
+// tslint:disable-next-line:typedef
+const WithFetchDataGitIssuesList = WithFetchData(GitRepoIssuesList);
 
 export interface IProps {
     repo: IRepository;
 }
-export class GitRepoDetails extends React.Component<IProps, { issues: any[] }> {
+export class GitRepoDetails extends React.Component<IProps, { }> {
     constructor(props: any) {
         super(props);
-        this.state = {
-            issues: undefined
-        };
     }
     public render(): JSX.Element {
         const { repo } = this.props;
-        const { issues } = this.state;
         return (
             <article>
                 <header>
@@ -26,41 +27,11 @@ export class GitRepoDetails extends React.Component<IProps, { issues: any[] }> {
                         {repo.owner.login}
                     </section>
                     <section>
-                        {issues && issues.map(issue => (
-                            <h3>{issue.title}</h3>
-                        ))}
+                        <WithFetchDataGitIssuesList key={`issues-for-${repo.node_id}`} url={repo.issues_url.replace("{/number}", "")}/>
                     </section>
                 </main>
             </article>
         );
     }
-    /**
-     * componentDidMount
-     */
-    public componentDidMount(): void {
-        this.fetchIssues();
-    }
-
-    public shouldComponentUpdate(nextProps: IProps): boolean {
-        if (this.props.repo !== nextProps.repo) {
-
-            this.fetchIssues();
-            return true;
-        }
-        return false;
-    }
-
-    private fetchIssues(): void {
-        const { repo } = this.props;
-        fetch(repo.issues_url.replace("{/number}", "")).then(response => {
-            if (response.ok) {
-                response.json().then(issues => {
-                    this.setState({ issues });
-                });
-            }
-        }).catch(console.error);
-
-    }
-
 }
 export default GitRepoDetails;

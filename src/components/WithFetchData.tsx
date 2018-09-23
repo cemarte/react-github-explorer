@@ -1,12 +1,20 @@
 import * as React from "react";
 
-export interface IInjectedProps {
-    data: any[];
+
+
+export interface IInjectedProps<T> {
+    data: T[];
     onFetchMore: () => void;
 }
 
-export interface IWithFetchDataState {
-    data: any[];
+export interface IWithFetchDataProps {
+    url: string;
+
+}
+export type IExpandedInjectedProps<T> = object & IInjectedProps<T>;
+
+export interface IWithFetchDataState<T> {
+    data: T[];
 }
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
@@ -14,8 +22,8 @@ type Subtract<T, K> = Omit<T, keyof K>;
 
 // tslint:disable-next-line:typedef
 export const WithFetchData =
-    <P extends IInjectedProps>(WrappedComponent: React.ComponentType<P>, url: string) =>
-        class extends React.Component<Subtract<P, IInjectedProps>, IWithFetchDataState> {
+    <T, P extends IExpandedInjectedProps<T>>(WrappedComponent: React.ComponentType<P>) =>
+        class extends React.Component<Subtract<P, IInjectedProps<T>> & IWithFetchDataProps, IWithFetchDataState<T>> {
             static displayName = `WithFetchData(${WrappedComponent.displayName || WrappedComponent.name})`;
             next: string;
             constructor(props: any) {
@@ -24,28 +32,34 @@ export const WithFetchData =
             }
 
             private fetchListData: () => void = () => {
-                fetch(this.next || `${url}?page=1&per_page=100`).then((response) => {
-                    if (response.ok) {
-                        this.next = response.headers.get("Link").split(";")[0].replace("<", "").replace(">", "");
-                        response.json().then((repos) => {
-                            this.setState({ data: [...this.state.data, ...repos] });
-                        });
-                    }
-                });
+                fetch(this.next || `${this.props.url}?page=1&per_page=100`)
+                    .then((response) => {
+                        if (response.ok) {
+                            this.storeNextLink(response.headers);
+                            response.json().then((moreData) => {
+                                this.setState({ data: [...this.state.data, ...moreData] });
+                            });
+                        }
+                    });
             }
 
-            componentDidMount(): void {
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => this.setState({ data }))
-                    .catch(console.error);
+            private storeNextLink(headers: Headers): void {
+                const link: string = headers.get("Link");
+                if (link) {
+                    this.next = link.split(";")[0].replace("<", "").replace(">", "");
+                }
+            }
+
+            public componentDidMount(): void {
+                this.fetchListData();
             }
 
             public render(): JSX.Element {
+                const { url, ...props } = this.props as IWithFetchDataProps;
                 return (
                     <WrappedComponent
                         data={this.state.data}
                         onFetchMore={this.fetchListData}
-                        {...this.props} />);
+                        {...props} />);
             }
         };

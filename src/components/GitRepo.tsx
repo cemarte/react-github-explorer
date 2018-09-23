@@ -4,7 +4,7 @@ import "./GitRepo.scss";
 
 export interface IProps { repo: IRepository; clicked: (id: number) => void; }
 
-export const GitRepo: React.SFC<IProps> = ({ repo, clicked }) => (
+export const GitRepoListItem: React.SFC<IProps> = ({ repo, clicked }) => (
     <article className="git-repo" onClick={()=>clicked(repo.id)}>
         <h3>{repo.full_name}</h3>
         <h4>{repo.name}</h4>
@@ -14,4 +14,4 @@ export const GitRepo: React.SFC<IProps> = ({ repo, clicked }) => (
     </article>
 );
 
-export default GitRepo;
+export default GitRepoListItem;

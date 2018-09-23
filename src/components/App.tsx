@@ -1,12 +1,12 @@
 import * as React from "react";
-import { GitRepos } from "./GitRepos";
+import { GitRepoList } from "./GitRepos";
 import "./App.scss";
 import { IRepository } from "../types";
 import { GitRepoDetails } from "./GitRepoDetails";
 import { WithFetchData } from "./WithFetchData";
 
 // tslint:disable-next-line:typedef
-const WithFetchDataRepos = WithFetchData(GitRepos, "https://api.github.com/repositories");
+const WithFetchDataRepos = WithFetchData(GitRepoList);
 
 export class App extends React.Component<{}, { selectedRepo: IRepository }> {
     constructor(props: any) {
@@ -25,7 +25,10 @@ export class App extends React.Component<{}, { selectedRepo: IRepository }> {
                 </header>
                 <main>
                     <nav className="repo-list">
-                        <WithFetchDataRepos repoSelected={this.handleRepoSelected}></WithFetchDataRepos>
+                        <WithFetchDataRepos
+                            url="https://api.github.com/repositories"
+                            repoSelected={this.handleRepoSelected}>
+                        </WithFetchDataRepos>
                     </nav>
                     <section className="repo-details">
                         {selectedRepo && <GitRepoDetails repo={selectedRepo} />}
