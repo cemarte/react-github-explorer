@@ -1,7 +1,11 @@
 import * as React from "react";
 import { IRepository } from "../types";
 
-export class GitRepoDetails extends React.Component<{ repo: IRepository }, { issues: any[] }> {
+
+export interface IProps {
+    repo: IRepository;
+}
+export class GitRepoDetails extends React.Component<IProps, { issues: any[] }> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -34,17 +38,29 @@ export class GitRepoDetails extends React.Component<{ repo: IRepository }, { iss
      * componentDidMount
      */
     public componentDidMount(): void {
-        const { repo } = this.props;
-        if (!this.state.issues) {
-
-            fetch(repo.issues_url.replace("{/number}", "")).then(response => {
-                if (response.ok) {
-                    response.json().then(issues => {
-                        this.setState({ issues });
-                    });
-                }
-            }).catch(console.error);
-        }
+        this.fetchIssues();
     }
+
+    public shouldComponentUpdate(nextProps: IProps): boolean {
+        if (this.props.repo !== nextProps.repo) {
+
+            this.fetchIssues();
+            return true;
+        }
+        return false;
+    }
+
+    private fetchIssues(): void {
+        const { repo } = this.props;
+        fetch(repo.issues_url.replace("{/number}", "")).then(response => {
+            if (response.ok) {
+                response.json().then(issues => {
+                    this.setState({ issues });
+                });
+            }
+        }).catch(console.error);
+
+    }
+
 }
 export default GitRepoDetails;

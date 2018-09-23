@@ -9,11 +9,6 @@ export class App extends React.Component<{}, { selectedRepo: IRepository }> {
         this.state = {
             selectedRepo: undefined
         };
-        this.handleRepoSelected = this.handleRepoSelected.bind(this);
-    }
-
-    private handleRepoSelected(repo: IRepository): void {
-        this.setState({ selectedRepo: repo });
     }
 
     public render(): JSX.Element {
@@ -21,14 +16,14 @@ export class App extends React.Component<{}, { selectedRepo: IRepository }> {
         return (
 
             <React.Fragment>
-                <header>
+                <header className="repo-header">
                     <h1>Repo explorer</h1>
                 </header>
                 <main>
-                    <nav>
+                    <nav className="repo-list">
                         <GitRepos repoSelected={this.handleRepoSelected}></GitRepos>
                     </nav>
-                    <section>
+                    <section className="repo-details">
                         {selectedRepo && <GitRepoDetails repo={selectedRepo} />}
                     </section>
                 </main>
@@ -36,5 +31,8 @@ export class App extends React.Component<{}, { selectedRepo: IRepository }> {
         );
     }
 
+    private handleRepoSelected = (repo: IRepository): void => {
+        this.setState({ selectedRepo: repo });
+    }
 }
 export default App;

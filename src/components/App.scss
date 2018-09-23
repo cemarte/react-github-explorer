@@ -1,4 +1,6 @@
-header{
+header.repo-header{
+    height: 80px;
+    box-sizing: border-box;
     border-image:linear-gradient(to right, #F04, #40F) 100% 1;
     border-style: solid;
     border-width: 2px;
@@ -10,9 +12,14 @@ main{
     grid-template-columns: 25% auto;
     grid-template-rows: auto;
 }
-nav{
+nav.repo-list{
     grid-area: n;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
-section {
+section.repo-details {
     grid-area: c;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
 }
