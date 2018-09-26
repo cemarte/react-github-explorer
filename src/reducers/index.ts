@@ -6,13 +6,13 @@ const repoReducer = (state = {}, action) => {
       return { ...state, isLoading: true };
     }
     case repoActions.FETCH_REPOS_SUCCESS: {
-      return { ...state, repos: action.payload.data, isLoading: true };
+      return { ...state, repos: action.payload, isLoading: true };
     }
     case repoActions.FETCH_REPOS_FAILURE: {
-      return { ...state, error: action.payload.data, isLoading: true };
+      return { ...state, error: action.payload, isLoading: true };
     }
     case repoActions.SELECT_REPO: {
-      return { ...state, selectedRepoId: action.payload.data.id };
+      return { ...state, selectedRepo: action.payload.repo };
     }
     default: {
       return state;

@@ -13,8 +13,9 @@ export class App extends React.Component<
     fetchMore: () => {};
     error?: Error;
     dispatch: Dispatch<any>;
+    selectedRepo: IRepository;
   },
-  { selectedRepo: IRepository }
+  {  }
 > {
   constructor(props: any) {
     super(props);
@@ -28,7 +29,6 @@ export class App extends React.Component<
   }
 
   public render(): JSX.Element {
-    const { selectedRepo } = this.state;
     return (
       <React.Fragment>
         <header className="repo-header">
@@ -45,7 +45,7 @@ export class App extends React.Component<
             />
           </nav>
           <section className="repo-details">
-            {selectedRepo && <GitRepoDetails repo={selectedRepo} />}
+            {this.props.selectedRepo && <GitRepoDetails repo={this.props.selectedRepo} />}
           </section>
         </main>
       </React.Fragment>
@@ -59,9 +59,9 @@ export class App extends React.Component<
 
 export default connect(
   state => ({
+    selectedRepo: state.repository.selectedRepo,
     repos: state.repository.repos,
     isLoading: state.repository.isLoading,
     error: state.repository.error
-  }),
-  (dispacth, getState) => ({})
+  })
 )(App);

@@ -12,7 +12,10 @@ export default function configureStore(preloadedState) {
   const composedEnhancers = composeWithDevTools(...enhancers);
   const store = createStore(rootReducer, preloadedState, composedEnhancers);
   if (process.env.NODE_ENV !== "production" && (module as any).hot) {
-    (module as any).hot.accept("./reducers", () => store.replaceReducer(rootReducer));
+    (module as any).hot.accept("./reducers", () => {
+        const nextRootReducer = require('./reducers/index');
+        store.replaceReducer(nextRootReducer)
+    });
   }
   return store;
 }
