@@ -1,0 +1,18 @@
+.git-user {
+  display: flex;
+  flex-direction: row;
+}
+
+.img-wrapper {
+  overflow: hidden;
+  width: 64px;
+  height: 0;
+  padding-top: 25%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.user-info{
+    padding-left: 1rem;
+}

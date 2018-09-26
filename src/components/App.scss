@@ -1,9 +1,23 @@
+:root{
+    --header-height: 90px;
+    --primary-color: #4E598C;
+    --secondary-color: #FFFFFF;
+    --terciary-color: #F9C784;
+    --quaternary-color: #FCAF58;
+    --quinternary-color: #FF8C42;
+}
+
 header.repo-header{
-    height: 80px;
+    margin: 0;
+    height: var(--header-height);
     box-sizing: border-box;
-    border-image:linear-gradient(to right, #F04, #40F) 100% 1;
-    border-style: solid;
-    border-width: 2px;
+    background-image:linear-gradient(to right, var(--primary-color), var(--quaternary-color));
+    overflow: auto;
+    h1{
+        color: var(--secondary-color);
+        margin-left: 1rem;
+    }
+
 }
 main{
     display: grid;
@@ -14,12 +28,12 @@ main{
 }
 nav.repo-list{
     grid-area: n;
-    height: calc(100vh - 80px);
+    height: calc(100vh - var(--header-height));
     overflow-y: auto;
     overflow-x: hidden;
 }
 section.repo-details {
     grid-area: c;
-    height: calc(100vh - 80px);
+    height: calc(100vh - var(--header-height));
     overflow-y: auto;
 }
