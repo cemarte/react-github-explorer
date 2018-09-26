@@ -10,10 +10,10 @@ const WithFetchDataGitIssuesList = WithFetchData(GitRepoIssuesList);
 // tslint:disable-next-line:typedef
 const WithFetchDataGitContributorsList = WithFetchData(GitRepoContributorsList);
 
-export interface IProps {
+export interface IGitRepoDetailsProps {
     repo: IRepository;
 }
-export class GitRepoDetails extends React.Component<IProps, {}> {
+export class GitRepoDetails extends React.Component<IGitRepoDetailsProps, {}> {
     constructor(props: any) {
         super(props);
     }
