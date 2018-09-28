@@ -1,5 +1,4 @@
 import * as React from "react";
-import { IInjectedProps } from "./WithFetchData";
 import { IIssue } from "../types";
 
 export interface IGitRepoIssuesListItem {
@@ -17,10 +16,10 @@ export const GitRepoIssuesListItem: React.SFC<IGitRepoIssuesListItem> = ({
 );
 GitRepoIssuesListItem.displayName = "GitRepoIssuesListItem";
 
-export const GitRepoIssuesList: React.SFC<IInjectedProps<IIssue>> = ({
-  data,
-  isLoading
-}) => {
+export const GitRepoIssuesList: React.SFC<{
+  data: IIssue[];
+  isLoading?: boolean;
+}> = ({ data, isLoading }) => {
   if (!data || !data.length) {
     return isLoading ? <div>Loading</div> : <div>No Issues</div>;
   }

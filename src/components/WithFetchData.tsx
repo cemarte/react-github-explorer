@@ -3,8 +3,8 @@ import * as React from "react";
 export interface IInjectedProps<T> {
   data: T[];
   onFetchMore: () => void;
-  isLoading: boolean;
-  error: Error;
+  isLoading?: boolean;
+  error?: Error;
 }
 
 export interface IWithFetchDataProps {

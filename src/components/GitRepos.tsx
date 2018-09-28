@@ -5,13 +5,13 @@ import "./GitRepos.scss";
 import { IInjectedProps } from "./WithFetchData";
 
 export interface IGitRepoListProps {
+  data: IRepository[];
+  isLoading: boolean;
   repoSelected: (repo: IRepository) => void;
+  onFetchMore: () => void;
 }
 
-export class GitRepoList extends React.Component<
-  IInjectedProps<IRepository> & IGitRepoListProps,
-  { data: IRepository }
-> {
+export class GitRepoList extends React.Component<IGitRepoListProps> {
   constructor(props: any) {
     super(props);
   }

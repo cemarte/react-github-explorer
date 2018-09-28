@@ -1,9 +1,8 @@
 import * as React from "react";
 import { IUser } from "../types";
-import { IInjectedProps } from "./WithFetchData";
 import GitRepoUser from "./GitRepoUser";
 
-export const GitRepoContributorsList: React.SFC<IInjectedProps<IUser>> = ({
+export const GitRepoContributorsList: React.SFC<{data: IUser[]}> = ({
   data
 }) => {
   if (data && data.length) {
