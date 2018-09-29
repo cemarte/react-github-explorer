@@ -35,7 +35,7 @@ export class App extends React.Component<
 
   public render(): JSX.Element {
     if (this.props.store) {
-      const { repos } = this.props.store;
+      const { repos, selectedRepo } = this.props.store;
 
       return (
         <React.Fragment>
@@ -51,9 +51,9 @@ export class App extends React.Component<
                 repoSelected={this.handleRepoSelected}
               />
             </nav>
-            {/* <section className="repo-details">
+            <section className="repo-details">
               {this.renderSelectedRepo(selectedRepo)}
-            </section> */}
+            </section>
           </main>
         </React.Fragment>
       );
@@ -61,22 +61,24 @@ export class App extends React.Component<
     return <div>Loading...</div>;
   }
 
-  // private renderSelectedRepo(selectedRepo: IRepository) {
-  //   if (selectedRepo) {
-  //     const contributors = this.props.contributorsMap[selectedRepo.id].data,
-  //       issues = this.props.issuesMap[selectedRepo.id].data;
-  //     return (
-  //       <GitRepoDetails
-  //         contributors={contributors}
-  //         repo={selectedRepo}
-  //         issues={issues}
-  //       />
-  //     );
-  //   }
-  // }
+  private renderSelectedRepo(selectedRepo?: IRepository) {
+    if (selectedRepo) {
+      const contributors = this.props.store!.getSelectedRepoContributors,
+        issues = this.props.store!.getSelectedRepoIssues;
+      if (contributors && issues) {
+        return (
+          <GitRepoDetails
+            contributors={contributors}
+            repo={selectedRepo}
+            issues={issues}
+          />
+        );
+      }
+    }
+  }
 
   private handleRepoSelected = (repo: IRepository): void => {
-    // this.props.dispatch(selectRepo(repo));
+    this.props.store!.selectRepo(repo);
   };
 
   private handleFetchMore = (): void => {
