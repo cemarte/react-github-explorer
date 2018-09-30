@@ -58,7 +58,7 @@ export class RepositoryStore {
         if (response.ok) {
           this.nextLink = getNextLink(response.headers);
           response.json().then(data => {
-            this.repos = data;
+            this.repos = [...this.repos , ...data];
           });
         }
       },

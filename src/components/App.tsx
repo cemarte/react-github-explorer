@@ -11,14 +11,6 @@ import { RepositoryStore } from "../store";
 export class App extends React.Component<
   {
     store?: RepositoryStore;
-    // repos: IRepository[];
-    // issuesMap: { [repoId: string]: { data: IIssue[]; nextLink: string } };
-    // contributorsMap: { [repoId: string]: { data: IUser[]; nextLink: string } };
-    // isLoading: boolean;
-    // fetchMore: () => {};
-    // error?: Error;
-    // dispatch: Dispatch<any>;
-    // selectedRepo: IRepository;
   },
   {}
 > {
@@ -82,6 +74,6 @@ export class App extends React.Component<
   };
 
   private handleFetchMore = (): void => {
-    // this.props.dispatch(loadRepos(true));
+    this.props.store!.fetchRepos(true);
   };
 }
