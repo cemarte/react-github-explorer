@@ -56,7 +56,7 @@ export class App extends React.Component<
   }
 
   private renderSelectedRepo(selectedRepo: IRepository) {
-    if (selectedRepo) {
+    if (selectedRepo && this.props.contributorsMap[selectedRepo.id] && this.props.issuesMap[selectedRepo.id]) {
       const contributors = this.props.contributorsMap[selectedRepo.id].data,
         issues = this.props.issuesMap[selectedRepo.id].data;
       return (
