@@ -8,7 +8,7 @@ export const GitRepoContributorsList: React.SFC<{data: IUser[]}> = ({
   if (data && data.length) {
     return (
       <React.Fragment>
-        <h3>Contributors</h3>
+        <h3>Contributors ({data.length})</h3>
         <ul>
           {data.map(contrib => (
             <GitRepoUser key={contrib.node_id} user={contrib} />

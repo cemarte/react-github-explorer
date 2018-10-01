@@ -1,6 +1,5 @@
 import * as React from "react";
 import { IRepository, IIssue, IUser } from "../types";
-import { WithFetchData } from "./WithFetchData";
 import { GitRepoIssuesList } from "./GitRepoIssuesList";
 import GitRepoContributorsList from "./GitRepoContributors";
 

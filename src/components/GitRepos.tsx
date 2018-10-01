@@ -2,7 +2,6 @@ import * as React from "react";
 import { IRepository } from "../types";
 import { GitRepoListItem } from "./GitRepo";
 import "./GitRepos.scss";
-import { IInjectedProps } from "./WithFetchData";
 
 export interface IGitRepoListProps {
   data: IRepository[];
