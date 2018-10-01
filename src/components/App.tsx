@@ -1,9 +1,8 @@
 import * as React from "react";
 import { GitRepoList } from "./GitRepos";
 import "./App.scss";
-import { IRepository, IIssue, IUser } from "../types";
+import { IRepository } from "../types";
 import { GitRepoDetails } from "./GitRepoDetails";
-
 import { observer, inject } from "mobx-react";
 import { RepositoryStore } from "../store";
 @inject("store")
@@ -32,7 +31,7 @@ export class App extends React.Component<
       return (
         <React.Fragment>
           <header className="repo-header">
-            <h1>Repo explorer</h1>
+            <h1>Github Repo Explorer</h1>
           </header>
           <main>
             <nav className="repo-list">

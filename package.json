@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "parcel ./src/index.html -p 3000 --open"
+    "start": "parcel ./src/index.html -p 3003 --open"
   },
   "dependencies": {
     "mobx": "^5.5.0",
