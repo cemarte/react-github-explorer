@@ -26,7 +26,7 @@ export const GitRepoIssuesList: React.SFC<IInjectedProps<IIssue>> = ({
   }
   return (
     <React.Fragment>
-      <h3>Issues</h3>
+      <h3>Issues ({data.length})</h3>
       {data.map((issue: IIssue) => (
         <GitRepoIssuesListItem issue={issue} key={issue.node_id} />
       ))}

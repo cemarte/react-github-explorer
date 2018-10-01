@@ -21,7 +21,7 @@ export class App extends React.Component<{}, { selectedRepo: IRepository }> {
         return (
             <React.Fragment>
                 <header className="repo-header">
-                    <h1>Repo explorer</h1>
+                    <h1>Github Repo explorer</h1>
                 </header>
                 <main>
                     <nav className="repo-list">
